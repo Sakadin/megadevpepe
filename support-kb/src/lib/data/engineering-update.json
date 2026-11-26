@@ -1,0 +1,17 @@
+{
+  "source": "https://hq.mega.dev/challenges/what-it-shows",
+  "sourceLabel": "NEW · DESK UPDATE — engineering update",
+  "incident": 4471,
+  "incidentClosed": "2026-10-05",
+  "observed": "2026-11-26",
+  "parser": {
+    "status": "fixed",
+    "summary": "fix(dates): parse dd/mm for eu locales",
+    "githubStateReason": "completed"
+  },
+  "hint": {
+    "status": "won't fix",
+    "summary": "booking-v3 form retired",
+    "githubStateReason": "not_planned"
+  }
+}

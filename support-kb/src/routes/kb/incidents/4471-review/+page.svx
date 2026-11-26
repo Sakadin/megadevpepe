@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 reviewed: separate the parser and the form hint'
 owner: Sakadin
-status: investigated
+status: closed
 reviewed: '2026-11-26'
 signature: v1.eyJzdWIiOiIzNzIzIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTU2ODc5NTgsImV4cCI6MTc5NTc3NDM1OH0.tMeT2sHiIxDAIFGf1e4_5G6h-cNaTME9BdIhltQLBSQ
 ---
@@ -11,20 +11,23 @@ signature: v1.eyJzdWIiOiIzNzIzIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
   import Callout from '#lib/kb/Callout.svelte';
   import CauseTable from '#lib/kb/CauseTable.svelte';
   import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import EngineeringUpdate from '#lib/kb/EngineeringUpdate.svelte';
   import InvestigationSummary from '#lib/kb/InvestigationSummary.svelte';
   import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 </script>
 
 <Callout kind="warn">
-The original “one issue, one fix” account is incomplete. Keep separate tickets for the shared parser and the booking-form hint. Neither is proven fixed by this export.
+The original “one issue, one fix” account is incomplete. The shared parser and booking-form hint are separate problems. The newer engineering update reports the parser fixed, but the hint won't fix because its form was retired.
 </Callout>
 
 ## What the evidence supports
 
 <InvestigationSummary />
 
-## Two causes, two fixes
+<EngineeringUpdate />
+
+## Two causes, different resolutions
 
 ### Parser: the tenant writes day first; the shared parser reads month first
 
@@ -37,8 +40,9 @@ and compare the intended date with the invite date. Report `R-41200` describes t
 The export provides the reported symptom and the desk's classification logic, not runnable product code;
 this reproduction must be verified against the product before claiming a fix.
 
-Fix the shared parser's locale handling. Test ambiguous dates, unambiguous day-first dates,
-and month-first tenants as controls. Do not assume this also fixes the form hint.
+The original fix recommendation was to honor tenant locale and test ambiguous dates,
+unambiguous day-first dates, and month-first controls. Engineering now reports this parser fixed;
+the course ticket closes as completed. Do not infer that this also fixes the form hint.
 
 ### Hint: booking-v3 tells day-first tenants to enter a month-first value
 
@@ -46,10 +50,10 @@ Booking-v3 prints `MM/DD/YYYY`, but its form reads input in the tenant's day-fir
 For Alder Physio (`de-DE`, booking-v3), follow the hint and enter `08/06/2026` for 6 August:
 the form reads 8 June. `R-41241` reports the resulting 8 June / 6 August mismatch.
 
-Align the displayed hint and the form's interpretation for each tenant. Verify Alder Physio,
-Copper Studio, and Pale Harbour. Also test app/email paths for those tenants: their reports
-belong to the shared-parser issue, not the form-hint issue. This proposed reproduction also
-needs product verification; the export does not include the booking application.
+Aligning the displayed hint and the form's interpretation was the original recommendation.
+Engineering instead retired booking-v3's form, so this ticket closes as not planned (won't fix),
+not completed. App/email paths for the same tenants belong to the shared-parser issue.
+The reproduction above documents the historical symptom; the export does not include the product.
 
 ## Why the original ticket hid a problem
 
@@ -90,8 +94,9 @@ Sources: `src/lib/data/reports-4471.json`, `src/lib/data/tenants/*.json`,
 `src/lib/data/desk-notes.json`, `src/lib/kb/causes.ts`, and the original incident and triage pages.
 All totals above are computed from those inputs at render time; intake tags are shown only for comparison.
 
-The two issues need independent fixes and regression tests. Recheck both against the next export,
-revisit the ambiguous reports with original payloads, and replace the old dedupe decision through
-the desk's normal approval process. “Investigated” does not mean “resolved”.
+Close the parser ticket as completed and the hint ticket as not planned, matching the newer desk update.
+Keep the historical report counts unchanged. Check any fresh reports against those two outcomes,
+revisit ambiguous cases with original payloads, and replace the old dedupe decision through the
+desk's normal approval process. A reported fix and a retired feature are different resolutions.
 
 <RenderStamp {signature} />

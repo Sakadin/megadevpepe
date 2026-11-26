@@ -72,3 +72,17 @@ test('both independently actionable causes have their own filed GitHub issue', a
   });
   assert.notEqual(links.parser, links.hint);
 });
+
+test('newer engineering outcomes keep fixed and retired closures distinct', async () => {
+  const update = JSON.parse(await readFile(new URL('../src/lib/data/engineering-update.json', import.meta.url), 'utf8'));
+  assert.equal(update.incidentClosed, '2026-10-05');
+  assert.equal(update.parser.status, 'fixed');
+  assert.equal(update.parser.githubStateReason, 'completed');
+  assert.equal(update.hint.status, "won't fix");
+  assert.equal(update.hint.githubStateReason, 'not_planned');
+  for (const cause of ['parser', 'hint']) {
+    const body = await readFile(new URL(`../../issues/${cause}.md`, import.meta.url), 'utf8');
+    assert.ok(body.includes(update[cause].summary));
+    assert.ok(body.includes('`' + update[cause].githubStateReason + '`'));
+  }
+});

@@ -40,12 +40,17 @@ The count follows tenant locale, form version, and entry channel. It is not the 
 - [Machine-readable analysis and complete ID partition](https://github.com/Sakadin/megadevpepe/blob/main/evidence/analysis.json).
 - [Signed KB investigation](https://github.com/Sakadin/megadevpepe/blob/main/support-kb/src/routes/kb/incidents/4471-review/+page.svx).
 
-## Course lifecycle
+## Engineering disposition after the first submission
 
-The course accepted this ticket's classification and report count. Closed at the course's
-explicit request so the KB review can be submitted for final acceptance. This closes the
-course exercise record, not the product defect: no booking-application fix was implemented
-or verified, and the product-verification checklist above remains outstanding.
+Source: [the course support desk's engineering update](https://hq.mega.dev/challenges/what-it-shows), read 2026-11-26.
+The desk records #4471 closed 2026-10-05.
+
+**hint: won't fix** — booking-v3 form retired.
+Close this issue with GitHub state reason `not_planned`.
+Engineering retired the form; this is won't fix / not planned, not a completed hint-code fix.
+The historical recommendations and checkboxes above describe verification not performed in this repo;
+the disposition comes from the newer engineering update, not from tests against the product.
+The export counts remain unchanged.
 
 ## Covered report IDs (export snapshot)
 

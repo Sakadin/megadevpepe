@@ -39,6 +39,8 @@ try {
   assert.equal(await page.locator('a[href="https://github.com/Sakadin/megadevpepe/issues/1"]').count(), 1);
   assert.equal(await page.locator('a[href="https://github.com/Sakadin/megadevpepe/issues/2"]').count(), 1);
   assert.doesNotMatch(await page.locator('main').innerText(), /not yet filed/);
+  assert.match(await page.locator('main').innerText(), /booking-v3 form retired/);
+  assert.match(await page.locator('main').innerText(), /not_planned/);
   const controls = page.locator('select[aria-label="tenant"]');
   assert.equal(await controls.count(), 2);
   assert.equal(await page.locator('.verdict').innerText(), 'different causes — keep apart');
@@ -57,7 +59,7 @@ try {
   const result = {
     page: 'rendered/kb/incidents/4471-review/index.html',
     browser: await browser.version(),
-    checks: ['unique report total', 'original cause-table total', 'derived desk reference', 'both filed issue links', 'hydrated dedupe controls: split, merge, split', 'no page errors or failed requests', 'no mobile horizontal overflow'],
+    checks: ['unique report total', 'original cause-table total', 'derived desk reference', 'both filed issue links', 'newer engineering outcomes and distinct closure reasons', 'hydrated dedupe controls: split, merge, split', 'no page errors or failed requests', 'no mobile horizontal overflow'],
     errors
   };
   await writeFile(new URL('browser-checks.json', evidence), JSON.stringify(result, null, 2) + '\n');

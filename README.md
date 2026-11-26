@@ -6,14 +6,18 @@ Its frontmatter carries the course-issued challenge signature, as required for c
 
 ## Deliverables
 
-| Independent problem | Unique reports | GitHub issue |
-| --- | ---: | --- |
-| Shared month-first parser for day-first tenants | 379 | [#1](https://github.com/Sakadin/megadevpepe/issues/1) |
-| Booking-v3 hint conflicts with tenant parsing | 33 | [#2](https://github.com/Sakadin/megadevpepe/issues/2) |
-| **Total** | **412** | |
+| Independent problem | Unique reports | GitHub issue | Engineering outcome |
+| --- | ---: | --- | --- |
+| Shared month-first parser for day-first tenants | 379 | [#1](https://github.com/Sakadin/megadevpepe/issues/1) | Fixed; closed as completed |
+| Booking-v3 hint conflicts with tenant parsing | 33 | [#2](https://github.com/Sakadin/megadevpepe/issues/2) | Won't fix: form retired; closed as not planned |
+| **Total** | **412** | | |
 
-The course accepted both tickets and explicitly requested their closure before final submission.
-Their closure completes the course records; it does not claim either product defect was fixed.
+The course accepted both tickets. Its newer engineering update records #4471 closed on 5 October:
+parser **fixed** (`fix(dates): parse dd/mm for eu locales`), hint **won't fix** (`booking-v3 form retired`).
+Those distinct dispositions determine the issue closure reasons, not a blanket course-completion reason.
+The update is captured in [`engineering-update.json`](support-kb/src/lib/data/engineering-update.json);
+its source is the signed-in [challenge page](https://hq.mega.dev/challenges/what-it-shows).
+Engineering reported these outcomes; no product fix or product verification was performed in this repo.
 Copies of their submitted bodies are in [`issues/`](issues/),
 and the page reads its links from [`issue-links.json`](support-kb/src/lib/data/issue-links.json).
 
