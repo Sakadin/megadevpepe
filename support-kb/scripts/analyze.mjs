@@ -55,7 +55,15 @@ for (const group of result.groups) {
   const text = `# ${d.title}\n\n## Scope and count\n\n**${group.reports} unique reports** merged into course ticket #4471, across **${group.tenants} tenants**; received **${group.firstReceived} through ${group.lastReceived}**. These are counts from the export through ${result.observedThrough}, not today's live queue.\n\nThe full export has ${result.originalRows} rows but ${result.uniqueReports} unique report IDs. Count one report per ID; remove the ${result.overlappingRows} overlapping rows before grouping. The parser and hint counts partition all ${result.uniqueReports} reports.\n\n## Distinct problem\n\n${d.mechanism}\n\n## Proposed reproduction and expected result\n\n${d.reproduction}\n\n## Fix and acceptance checks\n\n${d.fix}\n\n- [ ] Reproduce the reported behavior against the product.\n- [ ] Implement the independent fix and regression tests.\n- [ ] Reclassify a fresh export before changing the current queue.\n- [ ] Keep this issue separate from the other #4471 mechanism.\n\n## Limits and ambiguous evidence\n\n${d.uncertainty}\n\n## Evidence and counting method\n\n- Source reports: [reports-4471.json](../blob/main/support-kb/src/lib/data/reports-4471.json).\n- Tenant directory: [tenants](../tree/main/support-kb/src/lib/data/tenants).\n- Executed classification: [causes.ts](../blob/main/support-kb/src/lib/kb/causes.ts), especially \`uniqueById\`, \`dayFirst\`, \`causeOf\`, and \`groupByCause\`.\n- Intake tags within this group: ${Object.entries(group.intakeTags).map(([tag, n]) => `\`${tag}\`: ${n}`).join('; ')}. Labels are comparison data, not the cause rule.\n- [Machine-readable analysis and complete ID partition](../blob/main/evidence/analysis.json).\n- [Signed KB investigation](../blob/main/support-kb/src/routes/kb/incidents/4471-review/+page.svx).\n\n## Covered report IDs\n\n${group.reportIds.map((id) => `\`${id}\``).join(', ')}\n`;
   // Absolute links also work when this Markdown is submitted as a GitHub issue body.
   const body = text.replaceAll('(../blob/', '(https://github.com/Sakadin/megadevpepe/blob/').replaceAll('(../tree/', '(https://github.com/Sakadin/megadevpepe/tree/');
-  await writeFile(new URL(`../../issues/${group.cause}.md`, import.meta.url), body);
+  const archivedBody = body.replace('## Covered report IDs\n', `## Course lifecycle
+
+The course accepted this ticket's classification and report count. Closed at the course's
+explicit request so the KB review can be submitted for final acceptance. This closes the
+course exercise record, not the product defect: no booking-application fix was implemented
+or verified, and the product-verification checklist above remains outstanding.
+
+## Covered report IDs (export snapshot)\n`);
+  await writeFile(new URL(`../../issues/${group.cause}.md`, import.meta.url), archivedBody);
 }
 console.log(`Executed original tenant-aware rules: ${result.uniqueReports} reports, ${result.groups.map((g) => `${g.cause}=${g.reports}`).join(', ')}.`);
 console.log(`Removed ${result.overlappingRows} overlapping rows; ${result.intakeDisagreements} intake disagreements; ${result.ambiguousReportIds.length} ambiguous reports retained.`);

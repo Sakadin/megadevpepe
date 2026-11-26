@@ -12,7 +12,9 @@ Its frontmatter carries the course-issued challenge signature, as required for c
 | Booking-v3 hint conflicts with tenant parsing | 33 | [#2](https://github.com/Sakadin/megadevpepe/issues/2) |
 | **Total** | **412** | |
 
-Both tickets are filed and open. Copies of their submitted bodies are in [`issues/`](issues/),
+The course accepted both tickets and explicitly requested their closure before final submission.
+Their closure completes the course records; it does not claim either product defect was fixed.
+Copies of their submitted bodies are in [`issues/`](issues/),
 and the page reads its links from [`issue-links.json`](support-kb/src/lib/data/issue-links.json).
 
 - **KB page source:** [`+page.svx`](support-kb/src/routes/kb/incidents/4471-review/+page.svx).

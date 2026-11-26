@@ -40,6 +40,13 @@ The count follows tenant locale, form version, and entry channel. It is not the 
 - [Machine-readable analysis and complete ID partition](https://github.com/Sakadin/megadevpepe/blob/main/evidence/analysis.json).
 - [Signed KB investigation](https://github.com/Sakadin/megadevpepe/blob/main/support-kb/src/routes/kb/incidents/4471-review/+page.svx).
 
-## Covered report IDs
+## Course lifecycle
+
+The course accepted this ticket's classification and report count. Closed at the course's
+explicit request so the KB review can be submitted for final acceptance. This closes the
+course exercise record, not the product defect: no booking-application fix was implemented
+or verified, and the product-verification checklist above remains outstanding.
+
+## Covered report IDs (export snapshot)
 
 `R-41230`, `R-41241`, `R-41251`, `R-41259`, `R-41262`, `R-41275`, `R-41294`, `R-41305`, `R-41308`, `R-41366`, `R-41372`, `R-41384`, `R-41387`, `R-41396`, `R-41400`, `R-41406`, `R-41415`, `R-41416`, `R-41418`, `R-41428`, `R-41439`, `R-41441`, `R-41449`, `R-41453`, `R-41456`, `R-41460`, `R-41472`, `R-41485`, `R-41493`, `R-41539`, `R-41572`, `R-41582`, `R-41584`
