@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { loadAnalysis } from './load-analysis.mjs';
+import { pageSignature } from './page-signature.mjs';
 
 const { investigation: a, deskRef } = await loadAnalysis();
 const output = new URL('../../evidence/', import.meta.url);
@@ -14,7 +15,7 @@ const result = {
   uniqueReports: a.reportCount,
   overlappingRows: a.repeatedRows,
   intakeDisagreements: a.mislabeledReports,
-  deskRef: deskRef.deskRef('Sakadin'),
+  deskRef: deskRef.deskRef(await pageSignature()),
   firstReceived: a.oldestReceived,
   firstMerged: a.firstMerged,
   reportsBeforeFirstMergeDay: a.beforeFirstMerge,

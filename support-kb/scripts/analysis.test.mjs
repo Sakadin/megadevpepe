@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { readFile } from 'node:fs/promises';
 import { loadAnalysis } from './load-analysis.mjs';
+import { pageSignature } from './page-signature.mjs';
 
 const { investigation: a, causes: c, locales: l, reports, cases, deskRef } = await loadAnalysis();
 const group = (cause) => a.causeGroups.find((g) => g.cause === cause);
@@ -56,7 +57,11 @@ test('the signed page follows export conventions and keeps historical decisions 
   const page = await readFile(new URL('../src/routes/kb/incidents/4471-review/+page.svx', import.meta.url), 'utf8');
   for (const key of ['title', 'owner', 'status', 'reviewed', 'signature']) assert.match(page, new RegExp(`^${key}:`, 'm'));
   assert.match(page, /<RenderStamp \{signature\} \/>/);
-  assert.match(deskRef.deskRef('Sakadin'), /^DR-[0-9A-HJKMNP-TV-Z]{4}-[0-9A-HJKMNP-TV-Z]{4}$/);
+  const signature = await pageSignature();
+  assert.match(signature, /^v1\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/);
+  const analysis = JSON.parse(await readFile(new URL('../../evidence/analysis.json', import.meta.url), 'utf8'));
+  assert.equal(analysis.deskRef, deskRef.deskRef(signature));
+  assert.match(analysis.deskRef, /^DR-[0-9A-HJKMNP-TV-Z]{4}-[0-9A-HJKMNP-TV-Z]{4}$/);
 });
 
 test('both independently actionable causes have their own filed GitHub issue', async () => {

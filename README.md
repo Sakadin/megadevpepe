@@ -1,7 +1,8 @@
 # MEGA S01E03 — what it shows
 
 Review of support ticket **#4471**, using the course's KB export through **4 October 2026**.
-The investigation is signed **Sakadin** and reviewed **26 November 2026**.
+The investigation is owned by **Sakadin** and reviewed **26 November 2026**.
+Its frontmatter carries the course-issued challenge signature, as required for course verification.
 
 ## Deliverables
 
