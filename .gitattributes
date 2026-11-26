@@ -1,0 +1,2 @@
+# Preserve compiled output exactly; whitespace can occur inside template literals.
+rendered/** linguist-generated=true -whitespace

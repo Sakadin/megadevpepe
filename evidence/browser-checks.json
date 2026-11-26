@@ -1,0 +1,14 @@
+{
+  "page": "rendered/kb/incidents/4471-review/index.html",
+  "browser": "159.0.8154.6",
+  "checks": [
+    "unique report total",
+    "original cause-table total",
+    "derived desk reference",
+    "both filed issue links",
+    "hydrated dedupe controls: split, merge, split",
+    "no page errors or failed requests",
+    "no mobile horizontal overflow"
+  ],
+  "errors": []
+}

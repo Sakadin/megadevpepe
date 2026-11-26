@@ -1,0 +1,97 @@
+---
+layout: runbook
+title: '#4471 reviewed: separate the parser and the form hint'
+owner: Sakadin
+status: investigated
+reviewed: '2026-11-26'
+signature: Sakadin
+---
+
+<script>
+  import Callout from '#lib/kb/Callout.svelte';
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import DedupeExplorer from '#lib/kb/DedupeExplorer.svelte';
+  import InvestigationSummary from '#lib/kb/InvestigationSummary.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+<Callout kind="warn">
+The original “one issue, one fix” account is incomplete. Keep separate tickets for the shared parser and the booking-form hint. Neither is proven fixed by this export.
+</Callout>
+
+## What the evidence supports
+
+<InvestigationSummary />
+
+## Two causes, two fixes
+
+### Parser: the tenant writes day first; the shared parser reads month first
+
+For day-first tenants, an ambiguous date such as `07/04/2026` must mean 7 April, not 4 July.
+The shared parser uses month-first interpretation. This path includes app and email reports,
+and form reports where the hint is not the separate booking-v3 conflict.
+
+Reproduce with Harbour Dental (`en-GB`, booking-v2) through the app. Enter `07/04/2026`
+and compare the intended date with the invite date. Report `R-41200` describes this swap.
+The export provides the reported symptom and the desk's classification logic, not runnable product code;
+this reproduction must be verified against the product before claiming a fix.
+
+Fix the shared parser's locale handling. Test ambiguous dates, unambiguous day-first dates,
+and month-first tenants as controls. Do not assume this also fixes the form hint.
+
+### Hint: booking-v3 tells day-first tenants to enter a month-first value
+
+Booking-v3 prints `MM/DD/YYYY`, but its form reads input in the tenant's day-first format.
+For Alder Physio (`de-DE`, booking-v3), follow the hint and enter `08/06/2026` for 6 August:
+the form reads 8 June. `R-41241` reports the resulting 8 June / 6 August mismatch.
+
+Align the displayed hint and the form's interpretation for each tenant. Verify Alder Physio,
+Copper Studio, and Pale Harbour. Also test app/email paths for those tenants: their reports
+belong to the shared-parser issue, not the form-hint issue. This proposed reproduction also
+needs product verification; the export does not include the booking application.
+
+## Why the original ticket hid a problem
+
+The [original incident account](/kb/incidents/4471/) says one parser fix covers the ticket.
+Its table runs tenant-aware code and shows otherwise:
+
+<CauseTable ticket={4471} />
+
+Read the table as a classification of this export, not a live ticket tracker. Its
+“no ticket of its own” label describes the imported ticket data; the new GitHub tickets
+are linked above and do not rewrite that historical export.
+
+## Stop merging on subject alone
+
+The [triage page](/kb/triage/dedupe/) and
+[accepted decision 0001](/kb/decisions/0001-dedupe-by-subject/) still prescribe subject matching.
+Their review date is old, and the executable examples contradict that advice.
+The accepted decision remains unchanged as historical evidence; this investigation recommends
+a replacement decision rather than silently rewriting it.
+
+Look up the tenant, locale, form version, and entry channel. Merge only when the failure mechanism
+matches an existing issue. A matching subject is a search aid, not proof. If the tenant or mechanism
+is unknown, keep the report separate pending investigation; do not default to merging.
+
+<DedupeExplorer />
+
+## The desk kept receiving reports
+
+<QueueTimeline ticket={4471} />
+
+Received and merged are different events. A merge spike does not mean the failures began that week,
+and new reports after “known” must still be triaged. This chart ends with the export's evidence;
+obtain a fresh export and rerun the analysis before using these counts for today's queue.
+
+## Evidence and next review
+
+Sources: `src/lib/data/reports-4471.json`, `src/lib/data/tenants/*.json`,
+`src/lib/data/desk-notes.json`, `src/lib/kb/causes.ts`, and the original incident and triage pages.
+All totals above are computed from those inputs at render time; intake tags are shown only for comparison.
+
+The two issues need independent fixes and regression tests. Recheck both against the next export,
+revisit the ambiguous reports with original payloads, and replace the old dedupe decision through
+the desk's normal approval process. “Investigated” does not mean “resolved”.
+
+<RenderStamp {signature} />
